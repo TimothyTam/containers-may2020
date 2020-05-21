@@ -1,0 +1,32 @@
+version: '3'
+
+volumes:
+ data:
+
+networks:
+ nw-net:
+ 
+services:
+ nwdb:
+  image: duntalktome/northwinddb:v2
+  build: 
+   context: ./database
+  volumes:
+  - data:/var/lib/mysql
+  networks:
+  - nw-net
+
+ nwapp:
+  image: duntalktome/nwapp:v2
+  build:
+   context: ./server
+  environment:
+  - DB_HOST=nwdb
+  ports:
+  - 8080:3000
+  networks:
+  - nw-net  
+
+   
+   
+   
